@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {FormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
 import { NgModule } from '@angular/core';
 
 import {
@@ -28,6 +29,7 @@ import { PostListComponent } from './post/post-list/post-list.component';
     MatCardModule,
     MatButtonModule,
     MatToolbarModule,
+    HttpClientModule,
     MatExpansionModule
   ],
   providers: [],
