@@ -2,27 +2,54 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Subject} from "rxjs";
 import {Post} from "./post.model";
-import { stringify } from '@angular/compiler/src/util';
+ import {map} from "rxjs/operators";
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
 
-  private posts: Post[] = [];
+  //private posts: Post[] = [];
+  private posts;
   private postsUpdated = new Subject<Post[]>();
 
   constructor(private http: HttpClient) { }
 
   getPosts(){
-    //return [...this.posts];
-    this.http.get<{message: string, posts: Post[]}>("http://localhost:3000/api/posts").subscribe(res =>{
-      console.log("res --> ", res);
-      this.posts = res.posts;
-      this.postsUpdated.next([...this.posts]);
-    }, err =>{
-      console.log("err --> ", err);
-    });
+   /// return [...this.posts];
+
+   this.http.get<{message: string, posts: any}>("http://localhost:3000/api/posts")
+   .pipe(map((postData) =>{
+     console.log("post Data --> ", postData);
+     return postData.posts.map(post => {
+       return {
+         title: post.title,
+         content: post.content,
+         id: post._id
+       };
+     });
+   })).subscribe(transformedPosts => {
+     console.log("Transformed post --> ", transformedPosts);
+     this.posts = transformedPosts;
+     this.postsUpdated.next([...this.posts]);
+   });
+
+
+  //  this.http.get<{message: string, posts: any}>("http://localhost:3000/api/posts").subscribe(res =>{
+  //     console.log("res --> ", res);
+  //     this.posts = res.posts;
+  //     this.postsUpdated.next([...this.posts]);
+  //   }, err =>{
+  //     console.log("err --> ", err);
+  //   });
+
+    // this.http.get<{message: string, posts: any}>("http://localhost:3000/api/posts")
+    // .pipe(map(postData =>{
+    //     return postData.posts.map(post => {
+
+    //     })
+    // }))
   }
 
   getPostUpdatedListener(){
@@ -42,8 +69,17 @@ export class PostService {
       this.postsUpdated.next([...this.posts]);
     }, err =>{
       console.log("err --> ", err);
-    })
+    });
 
   }
+
+  deletePost(postId: string){
+    this.http.delete("http://localhost:3000/api/posts/" + postId).subscribe(
+      () =>{
+        console.log("Deleted...");
+      }
+    );
+  }
+
 
 }
