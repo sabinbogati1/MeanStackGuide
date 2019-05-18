@@ -26,12 +26,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-// app.use((req,res,next) =>{
-//     res.setHeader("Access-Control-Allow-Origin", "*");
-//     res.setHeader("Access-Control-Allow-Headers", "Origin", "X-Requested-With, Content-Type, Accept") ;
-//     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
-//     next();
-// });
 
 app.get("/api/posts", (req,res,next) =>{
 
@@ -54,14 +48,20 @@ app.post("/api/posts", (req,res, next) => {
         content: req.body.content
     });
 
-    post.save();
-
-    console.log("post --> ", req.body);
-    console.log("post --> ", post);  
-
-    res.status(201).json({
-        message: "Post added Successfully"
+    post.save().then(createdPost => {
+        console.log("Post Saved :: ", createdPost);
+        res.status(201).json({
+            message: "Post Added Successfully",
+            postId: createdPost._id
+        })
     });
+
+    // console.log("post --> ", req.body);
+    // console.log("post --> ", post);  
+
+    // res.status(201).json({
+    //     message: "Post added Successfully"
+    // });
 });
 
 app.delete("/api/posts/:id",(req,res,next) =>{
