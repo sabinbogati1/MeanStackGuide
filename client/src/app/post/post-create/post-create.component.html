@@ -1,12 +1,8 @@
-<!-- <textarea row="6" [(ngModel)]="enteredValue" #postInput></textarea>
-<hr/>
-<button (click)="onAddPost(postInput)">Save Post</button>
-
-<p>{{newPost}}</p> -->
-
-
 <mat-card>
-<form (submit)="onSavePost(postForm)" #postForm="ngForm">
+
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<form (submit)="onSavePost(postForm)" #postForm="ngForm" *ngIf="!isLoading">
     <mat-form-field>
         <input matInput type="text" [ngModel]="post?.title" name="title" required #title="ngModel" placeholder="Post Title" />
         <mat-error *ngIf="title.invalid"> Please enter a post title</mat-error>

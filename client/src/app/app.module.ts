@@ -1,13 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {FormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {FormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import {
   MatInputModule,
   MatCardModule,
-  MatButtonModule, MatToolbarModule, MatExpansionModule} from "@angular/material";
+  MatButtonModule, MatToolbarModule, MatExpansionModule, MatProgressSpinnerModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { PostCreateComponent } from './post/post-create/post-create.component';
@@ -32,7 +32,8 @@ import { AppRoutingModule } from './app-routing.module';
     MatButtonModule,
     MatToolbarModule,
     HttpClientModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
