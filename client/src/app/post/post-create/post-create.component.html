@@ -13,6 +13,10 @@
         <input type="file" #filepicker (change)="onImagePicked($event)" />
       </div>
 
+      <div class="image-preview">
+        <img src="" [alt]="">
+      </div>
+
       <mat-form-field>
         <textarea matInput row="6" formControlName="content" placeholder="Post Content"></textarea>
         <mat-error *ngIf="this.form.get('content').invalid"> Please enter a post content</mat-error>
