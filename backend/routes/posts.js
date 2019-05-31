@@ -27,23 +27,7 @@ const storage = multer.diskStorage({
     }
 })
 
-
-
-router.get("", (req,res,next) =>{
-
-    Post.find().then(documents => {
-        res.status(200).json({
-            message: "Posts Fetched Successfully",
-            posts: documents
-        });
-    }).catch(err => {
-        console.log("err in getting post..");
-    })
-
-   
-});
-
-router.post("", (req,res, next) => {
+router.post("" , multer({ storage: storage }).single("image"), (req,res, next) => {
     //const post = req.body;
     const post = new Post({
         title: req.body.title,
@@ -58,6 +42,24 @@ router.post("", (req,res, next) => {
         })
     });
 });
+
+
+
+router.get("", (req,res,next) =>{
+
+    Post.find().then(documents => {
+        res.status(200).json({
+            message: "Posts Fetched Successfully",
+            posts: documents
+        });
+    }).catch(err => {
+        console.log("err in getting post..");
+    })
+
+
+});
+
+
 
 router.get("/:id", (req,res,next) =>{
     Post.findById(req.params.id).then(post =>{
